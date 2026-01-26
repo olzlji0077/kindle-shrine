@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KINDLE THE SHRINE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --x: 50vw; --y: 50vh; }
+
+        body {
+            background-color: #030303; color: #d1d1d1;
+            margin: 0; font-family: "Nanum Myeongjo", serif;
+            overflow-x: hidden; cursor: none;
+        }
+
+        .torch {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 999;
+            background: radial-gradient(
+                circle 450px at var(--x) var(--y),
+                rgba(200, 40, 40, 0.18) 0%, 
+                rgba(0, 0, 0, 0.98) 75%,
+                #000 100%
+            );
+        }
+
+        #cursor-dot {
+            position: fixed; width: 4px; height: 4px; background: #ff0000;
+            border-radius: 50%; z-index: 1000; pointer-events: none;
+            box-shadow: 0 0 12px #ff0000;
+            left: var(--x); top: var(--y); transform: translate(-50%, -50%);
+        }
+
+        .container { 
+            padding: 0 10vw; 
+            position: relative; 
+            z-index: 1; }
+
+        header {
+            height: 120vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: clamp(5rem, 15vw, 20rem); line-height: 0.8;
+            margin: 0; letter-spacing: -0.05em; text-align: center;
+            text-transform: uppercase; font-weight: 400;
+            color: #fff; transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+
+        section {
+            display: grid; 
+            grid-template-columns: repeat(12, 1fr);
+            margin-bottom: 70vh; 
+            align-items: center; 
+            gap: 60px;
+        }
+
+        .image-card {
+            grid-column: span 7; 
+            position: relative; 
+            overflow: hidden;
+            filter: brightness(0) grayscale(1); 
+            transition: filter 0.6s ease;
+        }
+
+        section:nth-of-type(even) .image-card { grid-column: 6 / span 7; }
+        section:nth-of-type(odd) .image-card { grid-column: 1 / span 7; }
+
+        .image-card img { 
+            width: 100%; 
+            display: block; 
+            transform: scale(1.1); 
+            transition: transform 2s ease; }
+
+        .description {
+            grid-column: span 5; font-size: 1.05rem; line-height: 1.9;
+            color: #000; transition: color 0.4s ease;
+            word-break: keep-all; letter-spacing: 0.02em;
+        }
+
+        section:nth-of-type(even) .description { grid-column: 1 / span 4; text-align: right; }
+        section:nth-of-type(odd) .description { grid-column: 8 / span 5; text-align: left; }
+
+        .description b {
+            display: block; font-size: 2.8rem; font-weight: 700;
+            margin-bottom: 15px; color: inherit; letter-spacing: -0.04em;
+        }
+
+        .description i {
+            display: block; font-style: normal; font-size: 1.3rem;
+            color: #900; margin-bottom: 10px; font-weight: 800;
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.5s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal.active .image-card img { transform: scale(1); }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div class="torch"></div>
+
+    <main class="container">
+        <header class="reveal">
+            <h1 id="title">KINDLE<br>SHRINE</h1>
+        </header>
+
+        <section class="reveal">
+            <div class="image-card">
+                <img src="images/christian white.png">
+            </div>
+            <div class="description">
+                <i>그림자의 성소</i>
+                <b>01. 기독교 / Christianity</b>
+                고딕 양식의 아치 아래 흐르는 수직의 침묵. <br>보이지 않는 존재를 향한 인간의 갈망이 어둠 속에서 타오릅니다.
+                <br><br>The vertical silence of the Gothic vault. <br>A reach toward the unseen through the medium of shadow.
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="description">
+                <i>천 개의 눈</i>
+                <b>02. 불교 / Buddhism</b>
+                모든 것을 담고 있는 공(空). <br>어둠 속에서 깨어나는 천 개의 불상이 당신의 죄를 응시합니다.
+                <br><br>Emptiness that contains all.<br> The gaze of the thousand Buddhas awakening in the dark.
+            </div>
+            <div class="image-card">
+                <img src="images/buddhism white.png">
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="image-card">
+                <img src="not ready">
+            </div>
+            <div class="description">
+                <i>무한의 기하학</i>
+                <b>03. 이슬람 / Islam</b>
+                끝없이 반복되는 성스러운 무늬. <br>경계 없는 허공 속에서 질서를 찾는 영혼의 미로.
+                <br><br>Infinite repetition of the sacred geometry. <br>Finding order within the boundless void.
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="description">
+                <i>윤회의 수레바퀴</i>
+                <b>04. 힌두교 / Hinduism</b>
+                먼지 속에서 솟아오르는 강렬한 신들의 형상. 돌에 새겨진 삶과 죽음의 끝없는 순환.
+                <br><br>A vibrant pantheon rising from the dust. <br>The cycle of life and death etched in stone.
+            </div>
+            <div class="image-card">
+                <img src="not ready">
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 필요한 요소들 가져오기
+        const root = document.documentElement;
+        const title = document.getElementById('title');
+        const sections = document.querySelectorAll('section');
+
+        // 마우스가 움직일 때마다 실행되는 것들
+        document.addEventListener('mousemove', (e) => {
+            //현재 마우스 좌표
+            const x = e.clientX;
+            const y = e.clientY;
+            //CSS 변수 업데이트
+            root.style.setProperty('--x', x + 'px');
+            root.style.setProperty('--y', y + 'px');
+            
+            // 화면상 제목의 위치 
+            const tRect = title.getBoundingClientRect();
+            // 마우스랑 제목 중앙 사이의 거리 계산, 피타고라스의 정리 이용
+            const tDist = Math.hypot(x - (tRect.left + tRect.width/2), y - (tRect.top + tRect.height/2));
+
+            // 마우스와의 거리가 600px 이내로 가까워지면
+            if (tDist < 600) {
+                const p = (600 - tDist) / 600; // 0~1 사이의 값으로 변환 가까울수록 1에 가깝게
+                title.style.filter = `blur(${(1-p) * 10}px)`; // 멀수록 블러처리
+                title.style.opacity = p; // 가까울수록 선명하게 투명도 조절
+            } else {
+                title.style.opacity = 0; // 600보다 멀면 그냥 아예 안보이게
+            }
+            // 본문 섹션들에 대해서도 비슷한 효과 적용
+            sections.forEach(sec => {
+                const img = sec.querySelector('.image-card'); // 이미지 카드
+                const desc = sec.querySelector('.description'); // 설명 텍스트
+                
+                // 각각의 위치정보
+                const imgRect = img.getBoundingClientRect();
+                const descRect = desc.getBoundingClientRect();
+                
+                // 마우스와 이미지 및 설명 텍스트 중앙과의 거리 계산
+                const distImg = Math.hypot(x - (imgRect.left + imgRect.width/2), y - (imgRect.top + imgRect.height/2));
+                const distDesc = Math.hypot(x - (descRect.left + descRect.width/2), y - (descRect.top + descRect.height/2));
+                // 둘 중 더 가까운 거리 선택
+                const minDist = Math.min(distImg, distDesc);
+
+                if (minDist < 500) { // 500px 이내로 가까워지면
+                    const p2 = Math.max(0, 1 - minDist/500); // 0~1 사이 값으로 변환
+                    img.style.filter = `brightness(${0.1 + p2 * 0.9}) grayscale(${1 - p2})`; // 밝기 및 그레이스케일 조절
+                    desc.style.color = `rgba(255, 255, 255, ${0.1 + p2 * 0.95})`; // 투명도 점점 올리기
+                } else {
+                    img.style.filter = "brightness(0) grayscale(1)"; // 멀어지면 안보이게 설정
+                    desc.style.color = "#000";
+                }
+            });
+        });
+
+        // 스크롤할 때 요소들이 나타나게 하는 옵저버
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // 요소가 화면에 보이면 애니메이션 효과
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 }); // 10% 보이면 실행
+
+        // 모든 .reveal 요소들에 대해 옵저버 설정
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
