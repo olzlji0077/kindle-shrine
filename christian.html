@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHRINE: BUDDHISM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --x: 50%; --y: 50%; }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: #000; overflow: hidden; cursor: none;
+        }
+
+        /* 먼지 노이즈 */
+        .atmosphere {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.1; z-index: 10; pointer-events: none;
+        }
+
+    
+        .mural-frame {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200vw; 
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .mural-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            filter: brightness(0.65) contrast(1.1);
+            will-change: transform;
+        }
+
+            .torch {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 5;
+            background: radial-gradient(
+                circle 450px at var(--x) var(--y),
+                rgba(200, 40, 40, 0.18) 0%, 
+                rgba(0, 0, 0, 0.98) 75%,
+                #000 100%
+            );
+        }
+
+    
+        #cursor-dot {
+            display:none;
+        }
+        .shrine-log {
+            position: absolute; bottom: 30px; width: 100%;
+            font-family: "Nanum Myeongjo", serif;
+            color: rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.5em; font-size: 0.75rem;
+            z-index: 20; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div class="torch"></div>
+    <div class="atmosphere"></div>
+    
+    <div class="mural-frame">
+        <img src="images/christian_mural.jpeg" class="mural-img" id="mural">
+    </div>
+
+    <div class="shrine-log">
+        <p>그림자의 성소</p>
+    </div>
+
+    <script>
+        const root = document.documentElement;
+        const mural = document.getElementById('mural');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            root.style.setProperty('--x', x + 'px');
+            root.style.setProperty('--y', y + 'px');
+
+            const moveX = (window.innerWidth / 2 - x) / 120;
+            const moveY = (window.innerHeight / 2 - y) / 120;
+            mural.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
