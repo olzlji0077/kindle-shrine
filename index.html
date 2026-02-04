@@ -8,10 +8,22 @@
     <style>
         :root { --x: 50vw; --y: 50vh; }
 
+        ::selection {
+            background: #000;
+            color: #ff0000;
+        }
+
         body {
             background-color: #030303; color: #d1d1d1;
             margin: 0; font-family: "Nanum Myeongjo", serif;
             overflow-x: hidden; cursor: none;
+        }
+
+        /* 불 켰을 때 손전등 효과 없애기 */
+        body.lights-on .torch {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
         }
 
         .torch {
@@ -25,12 +37,7 @@
             );
         }
 
-        #cursor-dot {
-            position: fixed; width: 4px; height: 4px; background: #ff0000;
-            border-radius: 50%; z-index: 1000; pointer-events: none;
-            box-shadow: 0 0 12px #ff0000;
-            left: var(--x); top: var(--y); transform: translate(-50%, -50%);
-        }
+        #cursor-dot { display: none; }
 
         .container { 
             padding: 0 10vw; 
@@ -45,10 +52,21 @@
         }
 
         header h1 {
-            font-size: clamp(5rem, 15vw, 20rem); line-height: 0.8;
-            margin: 0; letter-spacing: -0.05em; text-align: center;
-            text-transform: uppercase; font-weight: 400;
-            color: #fff; transition: filter 0.3s ease, opacity 0.3s ease;
+            font-size: clamp(5rem, 15vw, 20rem); 
+            line-height: 0.8;
+            margin: 0; 
+            letter-spacing: -0.05em; 
+            text-align: center;
+            text-transform: uppercase; 
+            font-weight: 400;
+            color: #fff; transition: filter 0.3s ease, opacity 0.3s ease, text-shadow 1s ease;
+        }
+
+        .reveal.active h1 {
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.35);
+        }
+        .reveal.active .description i {
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
         }
 
         section {
@@ -64,7 +82,17 @@
             position: relative; 
             overflow: hidden;
             filter: brightness(0) grayscale(1); 
-            transition: filter 0.6s ease;
+            transition: filter 0.6s ease, box-shadow 1s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* 이미지에 마우스를 올렸을 때 확실히 반응하도록 추가 */
+        .image-card:hover {
+            transform: scale(1.02);
+        }
+
+        .reveal.active .image-card {
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.05);
         }
 
         section:nth-of-type(even) .image-card { grid-column: 6 / span 7; }
@@ -91,19 +119,43 @@
         }
 
         .description i {
-            display: block; font-style: normal; font-size: 1.3rem;
-            color: #900; margin-bottom: 10px; font-weight: 800;
+            display: block; 
+            font-style: normal; 
+            font-size: 1.3rem;
+            color: #900; margin-bottom: 10px; 
+            font-weight: 800;
         }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.5s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal.active .image-card img { transform: scale(1); }
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: all 1.5s ease; 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        .reveal.active .image-card img { 
+            transform: scale(1); 
+        }
+
+        #yt-player { 
+            position: fixed; top: -10px; left: -10px; width: 1px; height: 1px; opacity: 0; pointer-events: none; 
+        }
+            
+        .hint-text {
+            position: fixed; bottom: 20px; width: 100%; text-align: center;
+            font-size: 0.7rem; color: #7d7d7d; z-index: 1000; letter-spacing: 0.1em;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
     <div id="cursor-dot"></div>
     <div class="torch"></div>
+    <div id="yt-player"></div>
+    <div class="hint-text">CLICK TO PLAY/PAUSE SOUND | SPACE TO TOGGLE LIGHT</div>
 
     <main class="container">
         <header class="reveal">
@@ -111,7 +163,7 @@
         </header>
 
         <section class="reveal">
-            <div class="image-card">
+            <div class="image-card" onclick="location.href='christian.html'">
                 <img src="images/christian white.png">
             </div>
             <div class="description">
@@ -129,14 +181,14 @@
                 모든 것을 담고 있는 공(空). <br>어둠 속에서 깨어나는 천 개의 불상이 당신의 죄를 응시합니다.
                 <br><br>Emptiness that contains all.<br> The gaze of the thousand Buddhas awakening in the dark.
             </div>
-            <div class="image-card">
+            <div class="image-card" onclick="location.href='buddhism.html'">
                 <img src="images/buddhism white.png">
             </div>
         </section>
 
         <section class="reveal">
-            <div class="image-card">
-                <img src="not ready">
+            <div class="image-card" onclick="location.href='islam.html'">
+                <img src="images/islam white.png">
             </div>
             <div class="description">
                 <i>무한의 기하학</i>
@@ -153,8 +205,8 @@
                 먼지 속에서 솟아오르는 강렬한 신들의 형상. 돌에 새겨진 삶과 죽음의 끝없는 순환.
                 <br><br>A vibrant pantheon rising from the dust. <br>The cycle of life and death etched in stone.
             </div>
-            <div class="image-card">
-                <img src="not ready">
+            <div class="image-card" onclick="location.href='hinduism.html'">
+                <img src="images/hinduism white.png">
             </div>
         </section>
     </main>
@@ -165,8 +217,67 @@
         const title = document.getElementById('title');
         const sections = document.querySelectorAll('section');
 
+        // 전체 보기 모드 상태 변수
+        let lightsOn = false;
+        let isPlaying = false; // 노래 재생 상태 확인용
+
+        // 유튜브 IFrame API 설정
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '1', width: '1',
+                videoId: 'rgf0gI2THdg',
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'rgf0gI2THdg' }
+            });
+        }
+
+        // 클릭 시 노래 토글 (다시 클릭하면 멈추게 수정)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.image-card')) return; // 이미지 클릭 시엔 이동
+
+            if (!isPlaying) {
+                player.playVideo();
+                player.setVolume(30);
+                isPlaying = true;
+            } else {
+                player.pauseVideo();
+                isPlaying = false;
+            }
+        });
+
+        // Space 키를 누를 때 전체 보기 기능 (스크롤 방지 추가)
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // 스페이스바 누를 때 화면 내려가는 것 방지
+                lightsOn = !lightsOn;
+                document.body.classList.toggle('lights-on');
+                
+                // 불을 켰을 때(lightsOn) 모든 요소를 강제 선명하게 만듦
+                sections.forEach(sec => {
+                    const img = sec.querySelector('.image-card');
+                    const desc = sec.querySelector('.description');
+                    if (lightsOn) {
+                        img.style.filter = "brightness(1) grayscale(0)";
+                        desc.style.color = "#fff";
+                        title.style.opacity = 1; title.style.filter = "none";
+                    } else {
+                        // 다시 불을 끌 때 상태 초기화
+                        img.style.filter = "brightness(0) grayscale(1)";
+                        desc.style.color = "#000";
+                    }
+                });
+            }
+        });
+
         // 마우스가 움직일 때마다 실행되는 것들
         document.addEventListener('mousemove', (e) => {
+            if (lightsOn) return; // 불 켰을 때는 마우스 효과(가까이 가야 나타나는 것) 중단
+
             //현재 마우스 좌표
             const x = e.clientX;
             const y = e.clientY;
@@ -202,10 +313,10 @@
                 // 둘 중 더 가까운 거리 선택
                 const minDist = Math.min(distImg, distDesc);
 
-                if (minDist < 500) { // 500px 이내로 가까워지면
-                    const p2 = Math.max(0, 1 - minDist/500); // 0~1 사이 값으로 변환
-                    img.style.filter = `brightness(${0.1 + p2 * 0.9}) grayscale(${1 - p2})`; // 밝기 및 그레이스케일 조절
-                    desc.style.color = `rgba(255, 255, 255, ${0.1 + p2 * 0.95})`; // 투명도 점점 올리기
+                if (minDist < 500) { 
+                    const p2 = Math.max(0, 1 - minDist/500); 
+                    img.style.filter = `brightness(${0.1 + p2 * 0.9}) grayscale(${1 - p2})`; 
+                    desc.style.color = `rgba(255, 255, 255, ${0.1 + p2 * 0.95})`; 
                 } else {
                     img.style.filter = "brightness(0) grayscale(1)"; // 멀어지면 안보이게 설정
                     desc.style.color = "#000";
